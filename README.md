@@ -30,3 +30,6 @@ To help users maintain their digital reputation and avoid cyberbullying or unwan
 The app monitors social media platforms for inappropriate or harmful content related to the user (e.g., leaked photos or harmful comments).
 Automatically flags explicit or harmful posts and allows the user to review and report them.
 Sends alerts to users if potentially damaging content is detected on their profiles or if their account is hacked.
+
+
+Then the sample interface of this application is attached "https://www.figma.com/proto/3OnbZON9vviSZux4sTAupa/Untitled?node-id=6-113&node-type=canvas&t=tJURHs6TzAbCTFrM-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1"
