@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parental Control</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <h2>Child Messaging App</h2>
+        <div id="messages"></div>
+        <input type="text" id="messageInput" placeholder="Type a message..." />
+        <button id="sendMessage">Send Message</button>
+    </div>
+
+    <div id="parentAlert" class="hidden">
+        <h3>Alert to Parent!</h3>
+        <p id="alertMessage"></p>
+    </div>
+
+    <script src="server.js"></script>
+
+    
+</body>
+</html>
+
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+#app {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+}
+
+#messages {
+    border: 1px solid #ddd;
+    height: 200px;
+    padding: 10px;
+    margin-bottom: 20px;
+    overflow-y: scroll;
+}
+
+#messageInput {
+    width: 80%;
+    padding: 10px;
+}
+
+button {
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+#parentAlert {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffcccc;
+    border: 1px solid red;
+    border-radius: 10px;
+}
+
+</style>
+
+
+
+<script>
+
+const abusiveWords = [
+    "abuse", "asshole", "bastard", "bitch", "bullshit", 
+    "crap", "damn", "dick", "dumb", "fool", "fuck", 
+    "idiot", "jerk", "loser", "nigga", "piss", 
+    "prick", "shit", "slut", "stupid", "twat", "whore"
+];
+
+document.getElementById('sendMessage').addEventListener('click', () => {
+    const message = document.getElementById('messageInput').value;
+
+    if (message.trim() === '') {
+        alert('Please enter a message');
+        return;
+    }
+
+    // Display message in the UI
+    const messagesDiv = document.getElementById('messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.textContent = `Child: ${message}`;
+    messagesDiv.appendChild(messageDiv);
+
+    // Check for abusive words
+    if (containsAbusiveWords(message)) {
+        alertParent(message); // Alert the parent
+    }
+
+    // Clear the input field
+    document.getElementById('messageInput').value = '';
+});
+
+// Function to check for abusive words
+function containsAbusiveWords(message) {
+    return abusiveWords.some((word) => message.toLowerCase().includes(word));
+}
+
+// Function to alert the parent
+function alertParent(message) {
+    const alertMessage = document.getElementById('alertMessage');
+    alertMessage.textContent = `Abusive message detected from child: "${message}"`;
+    
+    const parentAlert = document.getElementById('parentAlert');
+    parentAlert.classList.remove('hidden');
+}
+
+
+
+</script>

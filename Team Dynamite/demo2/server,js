@@ -1,0 +1,46 @@
+
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const twilio = require('twilio');
+const app = express();
+
+// Twilio Credentials
+const accountSid = 'your_twilio_account_sid'; // Your Twilio Account SID
+const authToken = 'your_twilio_auth_token';   // Your Twilio Auth Token
+const client = new twilio(accountSid, authToken);
+
+// Middleware to parse JSON
+app.use(bodyParser.json());
+app.use(express.static('public')); // Serve static files from the 'public' directory
+
+// Endpoint to send an SMS alert
+app.post('/send-alert', (req, res) => {
+    const { phoneNumber, message } = req.body;
+
+    if (!phoneNumber || !message) {
+        return res.status(400).json({ success: false, message: 'Missing phone number or message' });
+    }
+
+    client.messages.create({
+        body: message,
+        from: 'your_twilio_phone_number', // Your Twilio number
+        to: phoneNumber
+    })
+    .then((message) => {
+        console.log('Message sent:', message.sid);
+        res.json({ success: true });
+    })
+    .catch((error) => {
+        console.error('Error sending message:', error);
+        res.status(500).json({ success: false, message: 'Failed to send message' });
+    });
+});
+
+// Start the server on port 3000
+app.listen(3000, () => {
+    console.log('Server running on port 3000');
+});
+
+
+
